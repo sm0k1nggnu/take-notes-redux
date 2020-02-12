@@ -1,26 +1,67 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import NoteTable from './tables/NoteTable';
+import AddNoteForm from './forms/AddNoteForm'
+import EditNoteForm from './forms/EditNoteForm'
 
-function App() {
+const App = () => {
+  const Notes = [
+    {id: 1, title: 'A Note', content: 'Content of first note.'},
+    {id: 2, title: 'Another Note', content: 'Content of second note.'},
+    {id: 3, title: 'A Third Note', content: 'Content of third note.'},
+  ]
+  const initialFormState = { id: null, title: '', content: '' }
+
+  const [notes, setNotes] = useState(Notes)
+  const [editing, setEditing] = useState(false)
+  const [currentNote, setCurrentNote] = useState(initialFormState)
+
+  const addNote = (note) => {
+    //note.id = notes.length + 1
+    setNotes([...notes, note])
+  }
+  const deleteNote = (id) => {
+    setNotes(notes.filter(note => note.id !== id))
+  }
+  const editRow = (note) => {
+    //setNotes(notes.filter(note => note.id !== id))
+    setEditing(true)
+    setCurrentNote({id: note.id, title: note.title, content: note.content})
+  }
+  const updateNote = (id, updatedNote) => {
+    setEditing(false)
+    setNotes(notes.map(
+      note => (note.id === id ? updatedNote : note)
+    ))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Take some notes</h1>
+      <div className="flex-row">
+        <div className="flex-large">
+          <h2>{editing ? 'Edit' : 'Add'}  note</h2>
+          {editing ? (
+            <EditNoteForm
+            editing={editing}
+            setEditing={setEditing}
+            currentNote={currentNote}
+            updateNote={updateNote}
+          />
+          ) : (
+            <AddNoteForm addNote={addNote}/>
+          )}
+        </div>
+        <div className="flex-large">
+          <h2>View notes</h2>
+          <NoteTable
+            notes={notes}
+            deleteNote={deleteNote}
+            editRow={editRow}
+          />
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
