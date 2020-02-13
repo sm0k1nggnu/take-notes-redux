@@ -4,8 +4,9 @@ const NoteTable = (props) => (
   <table>
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Username</th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Note</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -13,6 +14,7 @@ const NoteTable = (props) => (
     {props.notes.length > 0 ? (
       props.notes.map(note => (
         <tr key={note.id}>
+          <td>{note.id}</td>
           <td>{note.title}</td>
           <td>{note.content}</td>
           <td>
