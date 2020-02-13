@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 
 const EditNoteForm = (props) => {
   console.log(props)
@@ -8,6 +8,10 @@ const EditNoteForm = (props) => {
 
     setNote({ ...note, [name]: value })
   }
+  useEffect(() => {
+    setNote(props.currentNote)
+  }, [props]
+  )
   return (
     <form
     onSubmit={event => {
