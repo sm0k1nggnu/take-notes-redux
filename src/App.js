@@ -16,7 +16,8 @@ const App = () => {
   const [currentNote, setCurrentNote] = useState(initialFormState)
 
   const addNote = (note) => {
-    //note.id = notes.length + 1
+    console.log(notes[notes.length-1].id)
+    note.id = notes[notes.length-1].id + 1//notes.length + 1 //doesn't work if you delete a note
     setNotes([...notes, note])
   }
   const deleteNote = (id) => {
